@@ -1,0 +1,13 @@
+{
+  "name": "node-oauth-example-with-wso2is",
+  "version": "1.0.0",
+  "description": "An example of oAuth2.0 using node with wso2 is",
+  "main": "index.js",
+  "repository": "https://github.com/Wathsara/OAuth-Node-WSO2-IS",
+  "author": "Wathsara Daluwatta",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "express": "^4.16.3"
+  }
+}
