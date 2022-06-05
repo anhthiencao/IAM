@@ -1,23 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Welcome</title>
+  </head>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Welcome</title>
-</head>
-
-<body>
-	<a href="http://localhost:8080/logout">Login with wso2 Identity Server</a>
-</body>
-<script>
-	// We can get the token from the "access_token" query
-	// param, available in the browsers "location" global
-	const query = window.location.search.substring(1)
-	const token = query.split('access_token=')[1]
-    const nameNode = document.createTextNode(`Your acess token , ${token}`)
-	document.body.appendChild(nameNode)
-</script>
-
+  <body">
+    <p>OIDC_LOGOUT_POST</p>
+    <form
+      method="post"
+      action="https://localhost:9443/oidc/logout"
+    >
+        <input
+          type="hidden"
+          name="post_logout_redirect_uri"
+          value="http://localhost:8080/logout"
+        />
+        <button type="submit">POST</button>
+    </form>
+  </body>
+  <script type="text/javascript">
+    // We can get the token from the "access_token" query
+    // param, available in the browsers "location" global
+    const queryAccessToken = window.location.search.substring(1);
+    const queryIdToken = window.location.search.substring(2);
+    const accessToken = query.split("access_token=")[1];
+    const idToken = query.split("id_token=")[1];
+    const nameNode = document.createTextNode(
+      `Your acess token , ${accessToken}`
+    );
+	document.forms[0].submit( function(eventObj) {
+    // I want to add a field "field" with value "value" here
+    // to the POST data
+	document.forms[0].append(`<input type="hidden" name="id_token_hint" value=${idToken}/>`)
+  });
+    document.body.appendChild(nameNode);
+  </script>
 </html>
