@@ -1,10 +1,10 @@
 // Import the express lirbary
 const express = require('express')
 const FormData = require('form-data');
+var cors = require("cors");
 
 // Import the axios library, to make HTTP requests
 const axios = require('axios')
-let bodyFormData = new FormData();
 
 // This is the client ID and client secret that you obtained
 const clientID = '2kJ5YyusrTjBhJMPbnCUu0y5FQwa'
@@ -15,6 +15,7 @@ const clientSecret = 'CJ0f4f3wTOM27m8WaXr9bIIBgtka'
 // inside the public directory
 const app = express()
 app.use(express.static(__dirname + '/public'))
+app.use(cors({ credentials: true, origin: true }));
 let data = clientID+':'+clientSecret;
 let buff = new Buffer(data);
 
@@ -27,7 +28,6 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 app.get('/oauth2client', (req, res) => {
   // The req.query object has the query params that
   // were sent to this route. We want the `code` param
-  
   const requestToken = req.query.code
   axios({
     // make a POST request
@@ -45,10 +45,12 @@ app.get('/oauth2client', (req, res) => {
   }).then((response) => {
     // Once we get the response, extract the access token from
     // the response body
+    // console.log(response.data);
     idToken = response.data.id_token;
     const accessToken = response.data.access_token
     // redirect the user to the welcome page, along with the access token
-    res.redirect(`/welcome.html?access_token=${accessToken}`)
+    res.redirect('/welcome.html')
+    // res.redirect(`http://localhost:3000?access_token=${accessToken}&id_token=${idToken}`)
   }).catch((err) => {
     // Do somthing
 	console.log(err)
@@ -59,7 +61,8 @@ app.get('/logout', (req, res) => {
   // The req.query object has the query params that
   // were sent to this route. We want the `code` param
   // res.redirect(`/index.html`)
-  res.redirect('http://localhost:8080/');
+  console.log('Vai thiet')
+  res.redirect('http://localhost:3000');
 })
 
 // Start the server on port 8080
